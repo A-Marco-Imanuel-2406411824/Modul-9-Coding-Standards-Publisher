@@ -8,3 +8,8 @@ Using the same AMQP (Advanced Message Queuing Protocol) URL in both the publishe
 
 
 RabbitMQ Overview Page Screenshot: ![Overview](img.png)
+
+Publisher run: ![img_1.png](img_1.png)
+Subscriber run: ![img_2.png](img_2.png)
+Explanation: 
+The screenshots show the full RabbitMQ messaging flow working correctly from end to end. In the publisher run, the program connects to the local RabbitMQ broker using `amqp://guest:guest@localhost:5672`, creates the `user_created` fanout exchange, and publishes five `UserCreatedEventMessage` records one by one. Each message is serialized with Borsh before being sent, so the broker receives a compact binary payload instead of plain text. The terminal output in the publisher screenshot confirms that every user event is published successfully. In the subscriber run, the consumer is connected to the same broker and receives the messages from the same exchange. This shows that the publisher and subscriber are communicating through the same RabbitMQ instance, which is why the events produced by the publisher can be consumed on the other side. Together, the two screenshots prove that message delivery is working and that the pub-sub setup is configured properly.
