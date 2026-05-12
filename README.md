@@ -13,3 +13,9 @@ Publisher run: ![img_1.png](img_1.png)
 Subscriber run: ![img_2.png](img_2.png)
 Explanation: 
 The screenshots show the full RabbitMQ messaging flow working correctly from end to end. In the publisher run, the program connects to the local RabbitMQ broker using `amqp://guest:guest@localhost:5672`, creates the `user_created` fanout exchange, and publishes five `UserCreatedEventMessage` records one by one. Each message is serialized with Borsh before being sent, so the broker receives a compact binary payload instead of plain text. The terminal output in the publisher screenshot confirms that every user event is published successfully. In the subscriber run, the consumer is connected to the same broker and receives the messages from the same exchange. This shows that the publisher and subscriber are communicating through the same RabbitMQ instance, which is why the events produced by the publisher can be consumed on the other side. Together, the two screenshots prove that message delivery is working and that the pub-sub setup is configured properly.
+
+
+RabbitMQ chart when run: ![img_3.png](img_3.png)
+Explanation: 
+The spike in the RabbitMQ chart happens because the publisher sends five messages in a short burst. Each time the publisher publishes a `UserCreatedEventMessage`, RabbitMQ records a small increase in activity. Since the messages are sent one after another in quick succession, the chart rises briefly instead of staying flat. After the publisher finishes sending all five messages, the traffic drops back down to normal. So, the spike is simply the visual proof that the publisher was actively sending data to the broker during the run.
+This pattern is expected because RabbitMQ is briefly handling the burst of published events before returning to an idle state.
