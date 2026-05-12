@@ -1,0 +1,11 @@
+# Menghapus hasil kompilasi (wajib)
+/target/
+
+# Menghapus file backup dari rustfmt
+**/*.rs.bk
+
+# File log dari Cargo
+cargo-timing.bin
+
+# Khusus Windows: Simbol debug
+*.pdb
